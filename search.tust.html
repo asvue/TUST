@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <meta name="Cache-Control" content="no-cache">
-  <title>天津科技大学 - 搜索页</title>
+  <title>天津科技大学 - 信息检索</title>
 
   <link rel="stylesheet" href="css/tust.css">
   <link rel="icon" href="favicon.ico">
@@ -16,57 +16,63 @@
 </head>
 <body>
 <div id="header_box"></div>
+
 <div id="search" ng-controller="myCtrl">
   <div class="container">
-    <h1>搜索结果 <small>共搜索到{{news.length+notice.length+special.length}}条记录</small></h1>
+    <h1>搜索结果
+      <small>共搜索到 <span ng-bind="news.length+notice.length+special.length"></span>条记录</small>
+    </h1>
     <div class="row">
       <div class="col-xs-10">
         <!--新闻-->
-        <div>
-          <h2 class="page-header" id="c1">新闻</h2>
+        <div id="c1">
+          <h2 class="page-header">新闻</h2>
           <div ng-if="news.length==0">
-            <p>没有搜索到新闻相关记录</p>
+            <p>抱歉！没有搜索到新闻相关信息，换个角度试试吧。</p>
           </div>
           <div class="panel-group">
             <div class="panel panel-primary" ng-repeat="tmp in news">
-              <div class="panel-heading"><span class="label label-danger" ng-bind="dDate(tmp.ndate)"></span> {{tmp.ntitle}} </div>
-              <a ng-href="{{tmp.nhref}}">
+              <div class="panel-heading"><span class="label label-danger" ng-bind="dDate(tmp.ndate)"></span> <span
+                ng-bind="tmp.ntitle"></span></div>
+              <a ng-href="info.tust.html?tab=news&nid={{tmp.nid}}">
                 <div class="panel-body">
-                  <p>{{tmp.nabstract}}</p>
+                  <p ng-bind="tmp.nabstract"></p>
                 </div>
               </a>
             </div>
           </div>
         </div>
         <!--公告-->
-        <div>
-          <h2 class="page-header" id="c2">公告</h2>
+        <div id="c2">
+          <h2 class="page-header">公告</h2>
           <div ng-if="notice.length==0">
-            <p>没有搜索到公告相关记录</p>
+            <p>抱歉！没有搜索到公告相关信息，换个角度试试吧。</p>
           </div>
           <div class="panel-group">
             <div class="panel panel-primary" ng-repeat="tmp in notice">
-              <div class="panel-heading"><span class="label label-danger" ng-bind="dDate(tmp.ndate)"></span> {{tmp.ntitle}} </div>
-              <a ng-href="{{tmp.nhref}}">
+              <div class="panel-heading"><span class="label label-danger" ng-bind="dDate(tmp.ndate)"></span> <span
+                ng-bind="tmp.ntitle"></span></div>
+              <a ng-href="info.tust.html?tab=notice&nid={{tmp.nid}}">
                 <div class="panel-body">
-                  <p>{{tmp.nabstract}}</p>
+                  <p ng-bind="tmp.nabstract"></p>
                 </div>
               </a>
             </div>
           </div>
         </div>
         <!--专题-->
-        <div>
-          <h2 class="page-header" id="c3">专题</h2>
+        <div id="c3">
+          <h2 class="page-header">专题</h2>
           <div ng-if="special.length==0">
-            <p>没有搜索到专题相关记录</p>
+            <p>抱歉！没有搜索到专题相关信息，换个角度试试吧。</p>
           </div>
           <div class="panel-group">
             <div class="panel panel-primary" ng-repeat="tmp in special">
-              <div class="panel-heading"><span class="label label-danger" ng-bind="dDate(tmp.ndate)"></span> {{tmp.ntitle}} </div>
-              <a ng-href="{{tmp.nhref}}">
+              <div class="panel-heading"><span class="label label-danger" ng-bind="dDate(tmp.ndate)"></span> <span
+                ng-bind="tmp.ntitle"></span></div>
+              <a ng-href="info.tust.html?tab=special&nid={{tmp.nid}}">
                 <div class="panel-body">
-                  <p>{{tmp.nabstract}}</p>
+                  <p ng-bind="tmp.nabstract"></p>
                 </div>
               </a>
             </div>
@@ -74,11 +80,11 @@
         </div>
       </div>
       <div class="col-xs-2">
-        <div id="navMenu" style="width: 58px;">
-          <ul class="nav nav-pills nav-stacked">
-            <li><a href="#c1">新闻</a></li>
-            <li><a href="#c2">公告</a></li>
-            <li><a href="#c3">专题</a></li>
+        <div id="navMenu" style="width:80px;text-align: center; padding-top: 40px;">
+          <ul class="nav nav-pills  nav-stacked">
+            <li data-i="c1" class="active"><a href="javascript:;" class="bg-primary btn-lg">新闻</a></li>
+            <li data-i="c2"><a href="javascript:;" class="bg-primary btn-lg">公告</a></li>
+            <li data-i="c3"><a href="javascript:;" class="bg-primary btn-lg">专题</a></li>
           </ul>
         </div>
 
@@ -89,47 +95,78 @@
 </div>
 
 <div id="footer_box"></div>
-
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/angular.js"></script>
 <script src="js/common.js"></script>
 
 <script>
-  var app = angular.module('myApp',[]);
-  function getKw() {
-    var text = location.search;
-    var i = text.indexOf('kw');
-    var kw = decodeURI(text.slice(i+3));
-    return kw;
-  }
-  app.controller('myCtrl',function ($scope) {
-    $.get('data/search.tust.php',{kw:getKw()},function (data) {
-      $scope.news = data[0];
-      $scope.notice = data[1];
-      $scope.special = data[2];
+  var app = angular.module('myApp', []);
+  app.controller('myCtrl', ['$scope',function ($scope) {
+    $scope.getUrl = function () {
+      var url = location.search.slice(1).split('&');
+      for (var i = 0, t = {}; i < url.length; i++) {
+        var l = url[i].split('=');
+        t[l[0]] = l[1];
+      }
+      return t.kw;
+    };
+    $.get(`data/info.tust.php?kw=${$scope.getUrl()}`, function (data) {
+      $scope.news = data.news;
+      $scope.notice = data.notice;
+      $scope.special = data.special;
       $scope.dDate = function (time) {
         var t = new Date(parseInt(time));
         var y = t.getFullYear();
-        var M = t.getMonth()+1;
+        var M = t.getMonth() + 1;
         var d = t.getDate();
         return `${y}-${M}-${d}`;
-      }
+      };
       $scope.$apply();
+      navScroll();
     });
-  });
-//  window.addEventListener('scroll',function () {
-//    var s = window.scrollY;
-//    if ('114' < s < '500'){
-//      $('#navMenu').addClass('navFixed').find('li:nth-child(1)').addClass('active').siblings().removeClass('active');
-//    }
-//    else if (s > '550'  ){
-//      $('#navMenu').addClass('navFixed').find('li:nth-child(2)').addClass('active').siblings().removeClass('active');
-//    }
-//    else{
-//      $('#navMenu').removeClass('navFixed').find('li').removeClass('active');
-//    }
-//  })
+  }]);
+
+  function navScroll() {
+    var menu = $('#navMenu');//链接容器
+    var canScroll = true;
+    var items = [];
+    items['c1'] = 203;
+    items['c2'] = items['c1'] + parseInt($('#c1').css('height')) + 40;
+    items['c3'] = items['c2'] + parseInt($('#c2').css('height')) + 40;
+    currentId = '';
+    $(window).scroll(function () {
+      var top = $(document).scrollTop();//当前页面距顶端距离
+      top >= 114 ? menu.addClass('navFixed') : menu.removeClass('navFixed');//固定导航按钮
+      //判断当前处于哪个版块
+      for (var i in items) {
+        var itemTop = items[i];
+        if (top > itemTop-100) {
+          currentId = i;
+        } else {
+          break;
+        }
+      }
+      var currentLink = menu.find('.active');
+      //判断currentId被赋值并且data-i属性值不是当前Id
+      if (currentId && currentLink.attr('data-i') != currentId) {
+        currentLink.removeClass('active');
+        menu.find('[data-i=' + currentId + ']').addClass('active');
+      }
+    });
+    //为导航向绑定click事件
+    menu.on('click', 'li', function () {
+      if (!canScroll) {return false;}
+      canScroll = false;
+      var li = $(this);
+      var i = li.attr('data-i');
+      $('body').animate({scrollTop: items[i]}, 1000);
+      setTimeout(function () {
+        canScroll = true;
+      }, 1000);
+    });
+  }
+
 </script>
 </body>
 </html>

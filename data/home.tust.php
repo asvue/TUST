@@ -1,7 +1,13 @@
-<h1>
 <?php
-    $kw = $_REQUEST['uid'];
-    echo "您所查找的 $kw 暂无相关内容";
-    ?>
-    <a href="javascript:history.go(-1);">返回</a>
-</h1>
+    //定义响应头
+    header("Content-Type:application/json;charset-utf-8");
+    $conn = mysqli_connect('127.0.0.1','root','','newtust',3306);
+    $sql = "SET NAMES UTF8";
+    mysqli_query($conn,$sql);
+
+    @$uid = $_REQUEST['uid'];
+    if(!$uid){echo '[]';return;}
+    $sql = "SELECT * FROM user WHERE uid ='$uid'";
+    $result = mysqli_query($conn,$sql);
+    $output = mysqli_fetch_assoc($result);
+    echo json_encode($output);

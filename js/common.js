@@ -3,56 +3,64 @@
  */
 $('#header_box').load('data/header.tust.php', function () {
   //滚动监听
-  localStorage.removeItem('favorite_tables');
-  window.addEventListener('scroll',function () {
-    if (window.scrollY > parseInt($('header').css('height'))) {
+  $(window).scroll(function () {
+    var top = $(document).scrollTop();
+    if (top >= 114) {
+      $('#topNav-fake').removeClass('hidden');
       $('#topNav').addClass('navbar-fixed-top');
       $('#toTop').css('bottom','5%').fadeIn();
     } else {
+      $('#topNav-fake').addClass('hidden');
       $('#topNav').removeClass('navbar-fixed-top');
-
       $('#toTop').fadeOut();
     }
   });
+  validation();
 });
 $('#footer_box').load('data/footer.tust.php',function () {
   //返回顶部按钮
   $('#toTop').click(function () {
-    $("body,html").animate({scrollTop: 0}, 500);
-    $(this).animate({bottom:window.innerHeight},500).fadeOut();
+    $("body").animate({scrollTop: 0}, 500);
+    $(this).animate({bottom:'100%'},500);
   });
-  validation();
+
 });
 // 登录验证
 var validation = function () {
-  var uname = $('#uname');//用户名输入框
-  var upwd = $('#upwd');//密码输入框
+  var uname = $('#uname');          //用户名输入框
+  var upwd = $('#upwd');            //密码输入框
   var klogin = $('#login_remember');//记住密码
-  var btn = $('#login_btn');//提交按钮
-  var info = $('#login-info');//提示信息框
-  var login = $('#login_toggle');//模态框触发按钮
-  var topTip = $('#login_topTip');//顶部提示
-  var box = $('#login_box');//表单
-  var mo = $('#login_modal');//模态框
+  var btn = $('#login_btn');        //提交按钮
+  var info = $('#login-info');      //提示信息框
+  var login = $('.login_toggle');   //模态框触发按钮
+  var topTip = $('#login_topTip');  //顶部提示
+  var box = $('#login_box');        //表单
+  var mo = $('#login_modal');       //模态框
   //阻止默认表单提交
   box.submit(function (e) {
     e.preventDefault();
   });
-
-  if (sessionStorage.length) {
-    update();
-    return;
+  //如果登录过，就直接更新信息
+  if(sessionStorage.length){
+    for(var i=0; i<sessionStorage.length; i++){
+      //是数字且长度为8就赋予uid
+      if(!isNaN(sessionStorage.key(i))&&sessionStorage.key(i).length == 8){
+        update();
+        break;
+      }
+    }
   }
-
-  // 本地保存密码后将自动填写表单
-  if (localStorage.length) {
-    var username = localStorage.key(0);
-    var userpwd = localStorage.getItem(username);
-    uname.val(username);
-    upwd.val(userpwd);
-    klogin.attr('checked', '');
-  }
-  // 更改用户自动查密码
+  //用户进行登录时，查找上次登录用户名置入表单
+  login.click(function () {
+    var lastUser = localStorage.getItem('lastUser');
+    if (lastUser) {
+      var userpwd = localStorage.getItem(lastUser);
+      uname.val(lastUser);
+      upwd.val(userpwd);
+      klogin.attr('checked', '');
+    }
+  });
+  //更改用户自动查密码
   uname.blur(function () {
     if (this.value.length == '8') {
       var up = localStorage.getItem(this.value);
@@ -108,7 +116,7 @@ var validation = function () {
       btn.removeClass('disabled');
     }, 3000);
   }
-
+  //成功响应
   function doSuccess(data) {
     // 判断是否记住密码
     localStorage.removeItem(uname.val());
@@ -119,20 +127,22 @@ var validation = function () {
     mo.modal('hide');
     //保存登录状态
     sessionStorage.setItem(data.uid, data.uname);
+    localStorage.setItem('lastUser',data.uid);
+    //更新顶部信息
     update();
+    //重载
+    location.reload();
   }
-
   // 更新顶部信息
   function update() {
     var i = sessionStorage.key(0);
     var u = sessionStorage.getItem(i);
     login.html('个人中心');
-    login.attr('href', `data/home.tust.php?uid=${i}`);
+    login.attr('href', `javascript:location.href='home.tust.html';`);
     topTip.html(`欢迎你：${u} <a href="javascript:;" onclick="clearsess()">退出</a>`);
     topTip.css('display', 'inline-block');
   }
-}
-
+};
 // 退出登录
 function clearsess() {
   var out = $('#login_out');

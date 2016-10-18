@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-cn" ng-app="myApp">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,17 +16,110 @@
 <body>
 <div id="header_box"></div>
 
-<div id="main"></div>
+<div ng-controller="myCtrl">
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  <div class="container" ng-show="isLogin">
+    <div class="row">
+      <div class="col-xs-3">
+        <div class="thumbnail">
+          <img ng-src="images/user/{{data.uid}}.jpg" class="img-rounded">
+        </div>
+      </div>
+      <div class="col-xs-9 h2" style="line-height: 1.5em;">
+        <div class="row">
+          <div class="col-md-6">学号：<span ng-bind="data.uid"></span></div>
+          <div class="col-md-6">学院：<span ng-bind="data.udepartment"></span></div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">姓名：<span ng-bind="data.uname"></span></div>
+          <div class="col-md-6">专业：<span ng-bind="data.upro"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div>
+          <table class="table text-center table-striped table-bordered table-hover table-responsive">
+            <thead>
+            <tr class="danger">
+              <th>类别</th>
+              <th>第一学期</th>
+              <th>第二学期</th>
+              <th>第三学期</th>
+              <th>第四学期</th>
+              <th>第五学期</th>
+              <th>第六学期</th>
+              <th>第七学期</th>
+              <th>第八学期</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th class="success">学分</th>
+              <td ng-repeat="xf in xfList track by $index" ng-bind="xf"></td>
+            </tr>
+            <tr>
+              <th class="success">绩点</th>
+              <td ng-repeat="jd in jdList track by $index" ng-bind="jd"></td>
+            </tr>
+            <tr>
+              <th class="success">GPA <span data-toggle="tooltip" data-placement="top" title="平均学分绩点=∑(绩点*学分*k)/∑(学分)" class="glyphicon glyphicon-question-sign"></span></th>
+              <td ng-repeat="pj in pjList track by $index" ng-bind="pj"></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="jumbotron text-center" ng-hide="isLogin">
+    <h1>
+      您已退出登录，重新
+      <a href="#login_modal" data-toggle="modal" class="text-primary login_toggle">登录</a>
+      以查询个人信息</h1>
+  </div>
+</div>
+
 <div id="footer_box"></div>
 
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="js/angular.js"></script>
 <script src="js/common.js"></script>
 
 <script>
-  $('#main').load('data/home.tust.php',{uid:12031105});
+  $('[data-toggle="tooltip"]').tooltip();//工具提示
+  var app = angular.module('myApp',[]);
+  app.controller('myCtrl',['$scope','$http',function ($scope,$http) {
+    //取出sessionStorage中的值
+    for(var i=0; i<sessionStorage.length; i++){
+      //是数字且长度为8就赋予uid
+      if(!isNaN(sessionStorage.key(i))&&sessionStorage.key(i).length == 8){
+        var uid = sessionStorage.key(i);
+        $scope.isLogin = true;
+        break;
+      }
+    }
+    //如果没有取到就退出
+    if(!uid){
+      $scope.isLogin = false;
+      return;
+    }
+    $http.get(`data/home.tust.php?uid=${uid}`).success(function (data) {
+      $scope.xfList = [20,18.5,24,16,34,12,0,0];
+      $scope.jdList = [5,5.5,6,7,4,5,0,0];
+      $scope.pjList=[];
+      for(var i=0; i<8; i++){
+        if(!$scope.xfList[i]){$scope.pjList.push('-');continue;}
+        var num = $scope.xfList[i]/$scope.jdList[i];
+        $scope.pjList.push(num.toFixed(2));
+      }
+      $scope.data = data;
+    });
+
+  }]);
 </script>
 </body>
 </html>

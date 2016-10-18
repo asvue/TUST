@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="Cache-Control" content="no-cache">
+  <title>天津科技大学 - 信息中心</title>
+
+  <link rel="stylesheet" href="css/tust.css">
+  <link rel="icon" href="favicon.ico">
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.min.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div id="header_box"></div>
+
+<div ng-controller="myCtrl">
+  <div class="container">
+    <!-- 单信息展示容器 -->
+    <div ng-if="msg == 1">
+      <ul class="breadcrumb">
+        <li><a href="tust.html">首页</a></li>
+        <li><a ng-href="info.tust.html?tab={{tab.en}}" ng-bind="tab.cn"></a></li>
+        <li ng-bind="data.ntitle"></li>
+      </ul>
+      <div class="page-header text-center">
+        <h1 ng-bind-html="data.ntitle"></h1>
+        <p><span ng-bind="getnDate(data.ndate)"></span><br><span ng-bind="data.nauthor"></span></p>
+      </div>
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <div class="panel-title" ng-bind-html="data.nabstract" style="font-weight: bold;"></div>
+        </div>
+        <div class="panel-body" ng-bind-html="data.ncontent" style="line-height: 35px; font-size: 16px;"></div>
+      </div>
+      <div class="text-center">
+        <a href="javascript:history.go(-1);" class="btn btn-danger">返回</a>
+      </div>
+    </div>
+    <div ng-if="msg == 2">
+      <ul class="breadcrumb">
+        <li><a href="tust.html">首页</a></li>
+        <li ng-bind="tab.cn"></li>
+      </ul>
+      <div class="jumbotron">
+        <h1>天津科技大学 <span ng-bind="tab.cn"></span> <small>共 <span ng-bind="recordCount"></span> 条记录</small></h1>
+      </div>
+      <div class="panel-group">
+        <div class="panel panel-primary" ng-repeat="n in data">
+          <div class="panel-heading">
+            <a ng-href="info.tust.html?tab={{tab.en}}&nid={{n.nid}}" class="badge">查看</a>
+            <span ng-bind="n.ntitle"></span>
+            <span ng-bind="getnDate(n.ndate)" class="label label-danger pull-right"></span>
+          </div>
+          <div class="panel-body" ng-bind="n.nabstract"></div>
+        </div>
+      </div>
+      <div class="text-center">
+        <ul class="pagination">
+          <li ng-class="pno[index-1]" ng-repeat="index in indexList"><a onclick="$('body').animate({scrollTop:114},300);" style="cursor: pointer" ng-click="change(index)" ng-bind="index"></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="footer_box"></div>
+
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/angular.js"></script>
+<script src="js/common.js"></script>
+
+<script>
+  var app = angular.module('myApp',[]);
+  app.controller('myCtrl',['$scope','$http','$sce',function ($scope,$http,$sce) {
+    //解析文本
+    $scope.translation = function (str) {
+      return str.replace(/<p>/g,'<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+    };
+    //解析URL
+    $scope.getUrl = function(w) {
+      var tabList = {news:'新闻网',notice:'公告栏',special:'专题报告'};
+      var searchList = location.search.slice(1).split('&');
+      for(var i=0,tab={}; i<searchList.length; i++){
+        var l = searchList[i].split('=');
+        tab[l[0]] = l[1];
+      }
+      if(!tab.nid){tab.nid = ''}
+      if(w == 'tab'){
+        var t= {};
+        t.en = tab.tab;
+        t.cn = tabList[tab.tab];
+        return t;
+      }else{
+        return tab.nid;
+      }
+    };
+    $scope.tab = $scope.getUrl('tab');
+    $scope.getnDate = function (time) {
+      var t = new Date(parseInt(time));
+      var y = t.getFullYear();
+      var M = t.getMonth() + 1;
+      var d = t.getDate();
+      return `${y}年 ${M}月 ${d}日`;
+    };
+    $scope.change = function (index) {
+      if(!index){index = ''}
+      $http.get(`data/info.tust.php?tab=${$scope.tab.en}&pno=${index}&nid=${$scope.getUrl('nid')}`)
+        .success(function (data) {
+          if(data['msg'] == ($scope.msg=1)){
+            $scope.data = data['data'];
+            $scope.data.ntitle =
+              $sce.trustAsHtml($scope.translation($scope.data.ntitle));
+            $scope.data.nabstract =
+              $sce.trustAsHtml($scope.translation($scope.data.nabstract));
+            $scope.data.ncontent =
+              $sce.trustAsHtml($scope.translation($scope.data.ncontent));
+          }else if(data['msg'] == ($scope.msg=2)){
+            $scope.recordCount = data['recordCount'];
+            $scope.indexList = [];
+            $scope.pno = [];
+            for(var i=0;i<data['pageCount'];i++){
+              $scope.indexList.push(i+1);
+              $scope.pno.push((i == (data['pno']-1) ? 'active':''));
+            }
+            $scope.data = data['data'];
+          }
+        });
+    };
+    $scope.change();
+
+  }]);
+
+
+
+</script>
+
+
+</body>
+</html>

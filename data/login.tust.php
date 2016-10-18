@@ -1,7 +1,7 @@
 <?php
-    header('Content-Type:text/plain');
+    header('Content-Type:application/json;charset=utf-8');
     $uid = $_REQUEST['uid'];
-    $upwd = $_REQUEST['upwd'];
+    @$upwd = $_REQUEST['upwd'];
 
     $conn = mysqli_connect('127.0.0.1','root','','newtust',3306);
     $sql = 'SET NAMES UTF8';

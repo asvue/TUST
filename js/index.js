@@ -4,15 +4,15 @@
 
 // 接收数据
 $.getJSON('data/index.tust.php', function (responseData) {
-  loadImgs(responseData[0]);//轮播图
-  loadNews(responseData[1]);//新闻
-  loadNotice(responseData[2]);//公告
-  loadSpecial(responseData[3]);//专题
+  loadImgs(responseData.imgs);//轮播图
+  loadNews(responseData.news);//新闻
+  loadNotice(responseData.notice);//公告
+  loadSpecial(responseData.special);//专题
   slider.start();
   getTime();
 });
 
-//加载轮播
+//加载轮播图
 function loadImgs(imgs) {
   var list = $('.list');//图容器
   var btns = $('.buttons');//序号容器
@@ -24,7 +24,7 @@ function loadImgs(imgs) {
     var a = document.createElement('a');
     a.href = imgs[i].phref;
     var img = new Image();
-    img.src = imgs[i].psrc;
+    img.src = 'images/index/mainImages/'+imgs[i].psrc;
     img.title = imgs[i].ptitle;
     a.appendChild(img);
     flagImg.appendChild(a);
@@ -56,7 +56,7 @@ function loadNews(news) {
     html += `<div class="panel panel-primary">
             <div class="panel-heading">
                 ${news[i].ntitle} ${span}
-              <a href="${news[i].nhref}" class="pull-right">>>阅读原文</a>
+              <a href="info.tust.html?tab=news&nid=${news[i].nid}" class="pull-right">>>阅读原文</a>
             </div>
             <div class="panel-body">${news[i].nabstract}</div>
           </div>`;
@@ -76,7 +76,7 @@ function scrollInfo(area) {
   area.innerHTML += area.innerHTML;//克隆一份一样的内容
   var interval = 10;//滚动的速度 越小越快
   var timer;
-  var delay = 5000;//延迟时间
+  var delay = 3000;//延迟时间
   var i = 0;
   var move = 0;//已移动距离
   var pa = $('.news .panel');
@@ -141,7 +141,7 @@ function loadNotice(notice) {
               </div>
             </div>
             <div class="panel-collapse collapse ${hasIn}" id="notice${i}">
-              <div class="panel-body">${notice[i].nabstract} <a href="${notice[i].nhref}">>>查看全文</a></div>
+              <div class="panel-body">${notice[i].nabstract} <a href="info.tust.html?tab=notice&nid=${notice[i].nid}">>>查看全文</a></div>
             </div>
           </div>`;
   }
@@ -158,7 +158,7 @@ function loadSpecial(special) {
       '');
     html += `<div class="panel panel-info">
             <div class="panel-heading">${special[i].ntitle} ${span}
-              <a href="${special[i].nhref}" class="pull-right">>>阅读原文</a>
+              <a href="info.tust.html?tab=special&nid=${special[i].nid}" class="pull-right">>>阅读原文</a>
             </div>
             <div class="panel-body">${special[i].nabstract}</div>
           </div>`;

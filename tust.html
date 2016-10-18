@@ -14,44 +14,18 @@
   <link rel="icon" href="favicon.ico">
 
   <!--[if lt IE 9]>
-  <script src="js/html5shiv.min.js"></script>
-  <script src="js/respond.min.js"></script>
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
   <![endif]-->
 </head>
 <body>
 
-<!--头部、导航-->
+<!--头部、导航、登录模态‘退出提示-->
 <div id="header_box"></div>
 
 <!--主体-->
 <section>
   <div class="container">
-    <div style="display: none;" class="carousel slide" data-ride="carousel" data-interval="5000" id="crs" >
-      <!--滚动内容-->
-      <div class="carousel-inner">
-        <!--滚动项-->
-        <div class="item active">
-          <a href="404.html"><img src="images/index/mainImages/42.jpg"></a>
-        </div>
-        <div class="item">
-          <a href="404.html"><img src="images/index/mainImages/44.jpg"></a>
-        </div>
-        <div class="item">
-          <a href="404.html"><img src="images/index/mainImages/45.jpg"></a>
-        </div>
-      </div>
-      <!--外部控制组件-->
-      <a href="#crs" class="carousel-control left" data-slide="prev"><span
-        class="glyphicon glyphicon-chevron-left"></span></a>
-      <a href="#crs" class="carousel-control right" data-slide="next"><span
-        class="glyphicon glyphicon-chevron-right"></span></a>
-      <!--序号-->
-      <ul class="carousel-indicators">
-        <li class="active" data-target="#crs" data-slide-to="0"></li>
-        <li data-target="#crs" data-slide-to="1"></li>
-        <li data-target="#crs" data-slide-to="2"></li>
-      </ul>
-    </div>
     <!--轮播图片-->
     <div id="sliderBox">
       <!--图容器-->
@@ -68,11 +42,12 @@
       <div class="col-sm-8 news">
         <div class="page-header">
           <h3>
-            <a href="404.html">
+            <a href="info.tust.html?tab=news">
               <span class="glyphicon glyphicon-globe"></span> 新闻资讯 <small id="showTime"></small>
             </a>
           </h3>
         </div>
+        <!--新闻容器-->
         <div class="newsContainer">
           <div class="panel-group"></div>
         </div>
@@ -81,11 +56,12 @@
       <div class="col-sm-4">
         <div class="page-header">
           <h3>
-            <a href="404.html">
+            <a href="info.tust.html?tab=notice">
               <span class="glyphicon glyphicon-bullhorn"></span> 最新公告
             </a>
           </h3>
         </div>
+        <!--公告容器-->
         <div class="panel-group" id="notice"></div>
       </div>
     </div>
@@ -94,11 +70,12 @@
       <div class="col-sm-2">
         <div class="page-header">
           <h3>
-            <a href="404.html">
+            <span>
               <span class="glyphicon glyphicon-th-large"></span> 快捷入口
-          </a>
+            </span>
           </h3>
         </div>
+        <!--快捷容器-->
         <div class="panel panel-danger">
           <div class="panel-body">
             <ul class="list-inline">
@@ -122,18 +99,17 @@
       <div class="col-sm-10 special">
         <div class="page-header">
           <h3>
-            <a href="404.html">
+            <a href="info.tust.html?tab=special">
               <span class="glyphicon glyphicon-pencil"></span> 专题报告
-          </a>
+            </a>
           </h3>
         </div>
+        <!--专题容器-->
         <div class="panel-group"></div>
       </div>
     </div>
   </div>
 </section>
-<div class="container">
-</div>
 
 <!--底部导航-->
 <nav>
@@ -208,7 +184,7 @@
   </div>
 </nav>
 
-<!--登录模态、返回顶部、退出提示-->
+<!--返回顶部、版权信息-->
 <div id="footer_box"></div>
 
 <script src="js/jquery-3.1.1.min.js"></script>
@@ -216,17 +192,5 @@
 <script src="js/common.js"></script>
 <script src="js/index.js"></script>
 
-<!--Bootlint-->
-
-<!--<script>-->
-  <!--(function () {-->
-    <!--var s = document.createElement("script");-->
-    <!--s.onload = function () {-->
-      <!--bootlint.showLintReportForCurrentDocument([]);-->
-    <!--};-->
-    <!--s.src = "js/bootlint.js";-->
-    <!--document.body.appendChild(s)-->
-  <!--})();-->
-<!--</script>-->
 </body>
 </html>

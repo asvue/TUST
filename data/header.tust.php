@@ -26,7 +26,7 @@
             <!--搜索框-->
             <form action="search.tust.html" enctype="application/x-www-form-urlencoded">
               <div class="input-group">
-                <input name="kw" class="form-control" type="search" placeholder="请输入搜索关键词..." required>
+                <input name="kw" class="form-control" type="search" placeholder="请输入搜索关键词...(例如：a)" required>
                 <span class="input-group-btn">
                   <button id="search_btn" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                 </span>
@@ -35,7 +35,7 @@
             <!--登录-->
           </div>
           <div class="col-xs-3">
-            <a id="login_toggle" href="#login_modal" data-toggle="modal" class="btn btn-primary">登录</a>
+            <a href="#login_modal" data-toggle="modal" class="btn btn-primary login_toggle">登录</a>
           </div>
         </div>
       </div>
@@ -44,6 +44,7 @@
 </header>
 
 <!--导航-->
+<div id="topNav-fake" class="navbar navbar-default hidden"></div>
 <nav id="topNav" class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
@@ -149,3 +150,65 @@
     </div>
   </div>
 </nav>
+<!--登录模态框-->
+<div id="login_modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">门户登录</h3>
+      </div>
+      <div class="modal-body">
+        <!--错误信息-->
+        <div  class="text-center h3" >
+          <div id="login-info" style="display: none;"></div>
+        </div>
+        <form id="login_box">
+          <fieldset>
+            <div class="form-group has-feedback">
+              <label for="uname">用户名：</label>
+              <input id="uname" name="uname" class="form-control" placeholder="8位数字(例：12031105)" required autofocus pattern="^[0-9]{8}$">
+              <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+              <label for="upwd">密码：</label>
+              <input type="password" id="upwd" name="upwd" class="form-control" placeholder="6-16位字母或数字(例：123456)" required pattern="^[a-zA-Z0-9]{6,16}$">
+              <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="form-group">
+                    <label>
+                      <input id="login_remember" type="checkbox" name="keepLog"> 记住密码
+                    </label>
+                    <input id="login_btn" type="submit" value="登录" class="btn btn-primary btn-block">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+        <p>忘记了您的用户 <a href="404.html" title="找回密码">密码</a> ?
+          <span class="pull-right">不在校内?
+            <a href="404.html" title="校外信息门户入口">在此登录</a>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<!--退出提示框-->
+<div id="login_out" class="modal fade">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title text-center">确定退出登录么？</h3>
+      </div>
+      <div class="modal-body text-center">
+        <button type="button" class="btn btn-success">确定</button>
+        <button type="button" class="btn btn-danger">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
