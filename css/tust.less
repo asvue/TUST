@@ -1,0 +1,160 @@
+@import "bootstrap";
+
+.navbar-collapse > .nav {
+  width:100%;
+  li li{
+    text-align: center;
+  }
+}
+@media screen and (min-width: 768px){
+  .navbar-collapse > .nav >li {
+    width:10%;
+  }
+  .logo {
+     margin:15px 0;
+     height:80px;
+   }
+  .tools {
+    line-height:40px;
+  }
+}
+.search {
+  margin: 15px 0;
+}
+
+.carousel > .carousel-inner > .item img {
+  width:100%;
+}
+
+//飞机小按钮
+#toTop {
+  position: fixed;
+  z-index:2000;
+  bottom:5%;
+  right:3%;
+
+  display: none;
+  a{
+    display: inline-block;
+    width:36px;
+    height:65px;
+    background: url(../images/index/040.png);
+    &:hover{
+      background-position-y: -65px;
+    }
+  }
+}
+
+//新闻专题样式
+.news .panel-group{
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  position: relative;
+  top:-5px;
+  overflow: hidden;
+  .panel-heading a{
+    color: #fff;
+  }
+}
+@media screen and (min-width: 768px){
+  .newsContainer{
+    height:500px;
+  }
+}
+@media screen and (max-width: 767px){
+  .newsContainer{
+    height:600px;
+  }
+}
+.special .panel-group .panel-heading a{
+  color: #31708f;
+}
+
+//退出提示框
+@media (min-width: 768px){
+  #login_out .modal-dialog {
+    margin: 20px auto;
+  }
+}
+
+header {
+  background: url("../images/index/bg201410.jpg") no-repeat;
+}
+#sliderBox {
+  position:relative;
+  overflow:hidden;
+  padding:0;
+  .list {
+    position: absolute;
+    z-index: 1;
+    a{
+      overflow: hidden;
+      img {
+        float: left;
+      }
+    }
+  }
+  .buttons {
+    position: absolute;
+    height: 15px;
+    z-index: 2;
+    bottom: 5px;
+    span {
+      cursor: pointer;
+      float: left;
+      border: 1px solid #fff;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: transparent;
+      margin-right: 5px;
+      &:last-child{
+        margin-right:0;
+      }
+      &.on {
+        background: orangered;
+      }
+    }
+  }
+  .arrow {
+    display: none;
+    line-height: 72px;
+    text-align: center;
+    font-size: 50px;
+    width: 56px;
+    height: 66px;
+    position: absolute;
+    z-index: 2;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    background-color: RGBA(0,0,0,.3);
+    color: #fff;
+    &:hover {
+      background-color: RGBA(0,0,0,.7);
+    }
+  }
+  &:hover .arrow {
+    display: block;
+  }
+  .prev {
+    left: 20px;
+  }
+  .next {
+    right: 20px;
+  }
+}
+
+
+
+.navFixed{
+  position: fixed;
+  top: 100px;
+}
+
+
+
+
