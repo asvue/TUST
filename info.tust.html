@@ -27,12 +27,12 @@
         <li ng-bind="data.ntitle"></li>
       </ul>
       <div class="page-header text-center">
-        <h1 ng-bind-html="data.ntitle"></h1>
+        <h1 ng-bind="data.ntitle"></h1>
         <p><span ng-bind="getnDate(data.ndate)"></span><br><span ng-bind="data.nauthor"></span></p>
       </div>
       <div class="panel panel-info">
         <div class="panel-heading">
-          <div class="panel-title" ng-bind-html="data.nabstract" style="font-weight: bold;"></div>
+          <div class="panel-title" ng-bind="data.nabstract" style="font-weight: bold;"></div>
         </div>
         <div class="panel-body" ng-bind-html="data.ncontent" style="line-height: 35px; font-size: 16px;"></div>
       </div>
@@ -113,10 +113,6 @@
         .success(function (data) {
           if(data['msg'] == ($scope.msg=1)){
             $scope.data = data['data'];
-            $scope.data.ntitle =
-              $sce.trustAsHtml($scope.translation($scope.data.ntitle));
-            $scope.data.nabstract =
-              $sce.trustAsHtml($scope.translation($scope.data.nabstract));
             $scope.data.ncontent =
               $sce.trustAsHtml($scope.translation($scope.data.ncontent));
           }else if(data['msg'] == ($scope.msg=2)){

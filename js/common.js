@@ -16,6 +16,9 @@ $('#header_box').load('data/header.tust.php', function () {
     }
   });
   validation();
+  $("[href='404.html']").click(function (e) {
+    e.preventDefault();
+  });
 });
 $('#footer_box').load('data/footer.tust.php',function () {
   //返回顶部按钮
@@ -23,7 +26,9 @@ $('#footer_box').load('data/footer.tust.php',function () {
     $("body").animate({scrollTop: 0}, 500);
     $(this).animate({bottom:'100%'},500);
   });
-
+  $("[href='404.html']").click(function (e) {
+    e.preventDefault();
+  });
 });
 // 登录验证
 var validation = function () {
@@ -138,7 +143,7 @@ var validation = function () {
     var i = sessionStorage.key(0);
     var u = sessionStorage.getItem(i);
     login.html('个人中心');
-    login.attr('href', `javascript:location.href='home.tust.html';`);
+    login.attr('href', "javascript:location.href='home.tust.html';");
     topTip.html(`欢迎你：${u} <a href="javascript:;" onclick="clearsess()">退出</a>`);
     topTip.css('display', 'inline-block');
   }
@@ -156,7 +161,9 @@ function clearsess() {
     }
   })
 }
-
+$("[href='404.html']").click(function (e) {
+  e.preventDefault();
+});
 
 
 
