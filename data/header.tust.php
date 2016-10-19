@@ -13,7 +13,7 @@
             <div class=" text-right">
               <ul class="list-inline tools">
                 <li id="login_topTip" style="display: none;"></li>
-                <li><a href="old.tust.html">旧版</a></li>
+                <li><a href="404.html">旧版</a></li>
                 <li><a href="404.html">掌上科大</a></li>
                 <li><a href="404.html">English</a></li>
               </ul>
