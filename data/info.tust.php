@@ -1,7 +1,7 @@
 <?php
     //定义响应头
     header("Content-Type:application/json;charset-utf-8");
-    $conn = mysqli_connect('127.0.0.1','root','','newtust',3306);
+    $conn = mysqli_connect('127.0.0.1','root','','newtust');
     $sql = "SET NAMES UTF8";
     mysqli_query($conn,$sql);
 		

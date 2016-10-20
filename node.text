@@ -1,0 +1,10 @@
+兼容性问题：
+    Firefox
+    1、滚动监听
+    Safari
+    1、info.tust.html:108SyntaxError: Invalid character: '`'
+      angular.js:4379Error: [$injector:modulerr] Failed to instantiate module myApp due to:
+      [$injector:nomod] Module 'myApp' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.
+      http://errors.angularjs.org/1.4.1/$injector/nomod?p0=myApp
+      http://errors.angularjs.org/1.4.1/$injector/modulerr?p0=myApp&p1=%5B%24injector%3Anomod%5D%20Module%20'myApp'%20is%20not%20available!%20You%20either%20misspelled%20the%20module%20name%20or%20forgot%20to%20load%20it.%20If%20registering%20a%20module%20ensure%20that%20you%20specify%20the%20dependencies%20as%20the%20second%20argument.%0Ahttp%3A%2F%2Ferrors.angularjs.org%2F1.4.1%2F%24injector%2Fnomod%3Fp0%3DmyApp
+

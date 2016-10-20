@@ -11,7 +11,6 @@
   <link rel="icon" href="favicon.ico">
   <!--[if lt IE 9]>
   <script src="js/html5shiv.min.js"></script>
-  <script src="js/respond.min.js"></script>
   <![endif]-->
 </head>
 <body>
@@ -22,7 +21,7 @@
     <!-- 单信息展示容器 -->
     <div ng-if="msg == 1">
       <ul class="breadcrumb">
-        <li><a href="tust.html">首页</a></li>
+        <li><a href="index.html">首页</a></li>
         <li><a ng-href="info.tust.html?tab={{tab.en}}" ng-bind="tab.cn"></a></li>
         <li ng-bind="data.ntitle"></li>
       </ul>
@@ -42,7 +41,7 @@
     </div>
     <div ng-if="msg == 2">
       <ul class="breadcrumb">
-        <li><a href="tust.html">首页</a></li>
+        <li><a href="index.html">首页</a></li>
         <li ng-bind="tab.cn"></li>
       </ul>
       <div class="jumbotron">
@@ -60,7 +59,7 @@
       </div>
       <div class="text-center">
         <ul class="pagination">
-          <li ng-class="pno[index-1]" ng-repeat="index in indexList"><a onclick="$('body').animate({scrollTop:114},300);" style="cursor: pointer" ng-click="change(index)" ng-bind="index"></a></li>
+          <li ng-class="pno[index-1]" ng-repeat="index in indexList"><a onclick="$('body,html').animate({scrollTop:114},300);" style="cursor: pointer" ng-click="change(index)" ng-bind="index"></a></li>
         </ul>
       </div>
     </div>
@@ -69,7 +68,7 @@
 
 <div id="footer_box"></div>
 
-<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/jquery-1.11.3.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/angular.js"></script>
 <script src="js/common.js"></script>
@@ -105,11 +104,11 @@
       var y = t.getFullYear();
       var M = t.getMonth() + 1;
       var d = t.getDate();
-      return `${y}年 ${M}月 ${d}日`;
+      return y+'年 '+M+'月 '+d+'日';
     };
     $scope.change = function (index) {
       if(!index){index = ''}
-      $http.get(`data/info.tust.php?tab=${$scope.tab.en}&pno=${index}&nid=${$scope.getUrl('nid')}`)
+      $http.get('data/info.tust.php?tab='+$scope.tab.en+'&pno='+index+'&nid='+$scope.getUrl('nid'))
         .success(function (data) {
           if(data['msg'] == ($scope.msg=1)){
             $scope.data = data['data'];

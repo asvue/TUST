@@ -11,7 +11,6 @@
   <link rel="icon" href="favicon.ico">
   <!--[if lt IE 9]>
   <script src="js/html5shiv.min.js"></script>
-  <script src="js/respond.min.js"></script>
   <![endif]-->
 </head>
 <body>
@@ -95,7 +94,7 @@
 </div>
 
 <div id="footer_box"></div>
-<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/jquery-1.11.3.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/angular.js"></script>
 <script src="js/common.js"></script>
@@ -111,7 +110,7 @@
       }
       return t.kw;
     };
-    $.get(`data/info.tust.php?kw=${$scope.getUrl()}`, function (data) {
+    $.get('data/info.tust.php?kw='+$scope.getUrl(), function (data) {
       $scope.news = data.news;
       $scope.notice = data.notice;
       $scope.special = data.special;
@@ -120,7 +119,7 @@
         var y = t.getFullYear();
         var M = t.getMonth() + 1;
         var d = t.getDate();
-        return `${y}-${M}-${d}`;
+        return y+'-'+M+'-'+d;
       };
       $scope.$apply();
       navScroll();
@@ -136,7 +135,7 @@
     items['c3'] = items['c2'] + parseInt($('#c2').css('height')) + 40;
     currentId = '';
     $(window).scroll(function () {
-      var top = $(document).scrollTop();//当前页面距顶端距离
+      var top = $('body,html').scrollTop();//当前页面距顶端距离
       top >= 114 ? menu.addClass('navFixed') : menu.removeClass('navFixed');//固定导航按钮
       //判断当前处于哪个版块
       for (var i in items) {
@@ -160,7 +159,7 @@
       canScroll = false;
       var li = $(this);
       var i = li.attr('data-i');
-      $('body').animate({scrollTop: items[i]}, 1000);
+      $('body,html').animate({scrollTop: items[i]}, 1000);
       setTimeout(function () {
         canScroll = true;
       }, 1000);

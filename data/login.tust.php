@@ -3,7 +3,7 @@
     $uid = $_REQUEST['uid'];
     @$upwd = $_REQUEST['upwd'];
 
-    $conn = mysqli_connect('127.0.0.1','root','','newtust',3306);
+    $conn = mysqli_connect('127.0.0.1','root','','newtust');
     $sql = 'SET NAMES UTF8';
     mysqli_query($conn,$sql);
     $sql = "SELECT * FROM user WHERE uid ='$uid' AND upwd = '$upwd'";

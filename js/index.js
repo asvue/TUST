@@ -1,9 +1,8 @@
-/**
- * Created by uid on 2016/10/3.
- */
+
 
 // 接收数据
-$.getJSON('data/index.tust.php', function (responseData) {
+$.get('data/index.tust.php', function (responseData) {
+  responseData = JSON.parse(responseData.replace(/<script.*>/,''));
   loadImgs(responseData.imgs);//轮播图
   loadNews(responseData.news);//新闻
   loadNotice(responseData.notice);//公告
@@ -51,15 +50,16 @@ function loadNews(news) {
   for (var i = 0; i < news.length; i++) {
     var ntime = parseInt(news[i].ndate);
     var now = new Date();
-    var span = (now - ntime < 172800000 ? `<span class="label label-danger">New</span>` :
+    var span = (now - ntime < 172800000 ? '<span class="label label-danger">New</span>' :
       '');
-    html += `<div class="panel panel-primary">
-            <div class="panel-heading">
-                ${news[i].ntitle} ${span}
-              <a href="info.tust.html?tab=news&nid=${news[i].nid}" class="pull-right">>>阅读原文</a>
-            </div>
-            <div class="panel-body">${news[i].nabstract}</div>
-          </div>`;
+    html +=
+        '<div class="panel panel-primary"><div class="panel-heading">'
+    +news[i].ntitle+span+
+        '<a href="info.tust.html?tab=news&nid='
+    +news[i].nid+
+       '" class="pull-right">>>阅读原文</a></div><div class="panel-body">'
+    +news[i].nabstract+
+        '</div></div>';
   }
   container.html(html);
   while (height < 400) {
@@ -129,21 +129,25 @@ function loadNotice(notice) {
   for (var i = 0; i < notice.length; i++) {
     var ntime = parseInt(notice[i].ndate);
     var now = new Date();
-    var span = (now - ntime < 172800000 ? `<span class="label label-danger">New</span>` :
+    var span = (now - ntime < 172800000 ? '<span class="label label-danger">New</span>' :
       '');
     var hasIn = (i == 0 ? ' in' : '');
-    html += `<div class="panel panel-warning">
-            <div class="panel-heading">
-              <div class="panel-title">
-                <a data-toggle="collapse" data-parent="#notice" href="#notice${i}">
-                  <span class="label label-default">${notice[i].ndepartment}</span> ${notice[i].ntitle} ${span}
-                </a>
-              </div>
-            </div>
-            <div class="panel-collapse collapse ${hasIn}" id="notice${i}">
-              <div class="panel-body">${notice[i].nabstract} <a href="info.tust.html?tab=notice&nid=${notice[i].nid}">>>查看全文</a></div>
-            </div>
-          </div>`;
+    html +=
+      '<div class="panel panel-warning">' +
+        '<div class="panel-heading">' +
+          '<div class="panel-title">' +
+            '<a data-toggle="collapse" data-parent="#notice" href="#notice'+i+'">' +
+      '<span class="label label-default">'+notice[i].ndepartment+'</span> '
+      +notice[i].ntitle+' '+span+'</a>'+
+              '</div>'+
+            '</div>'+
+        '<div class="panel-collapse collapse '+hasIn+'" id="notice'+i+'">'+
+              '<div class="panel-body">'+
+                notice[i].nabstract+
+                ' <a href="info.tust.html?tab=notice&nid='+notice[i].nid+'">>>查看全文</a>' +
+              '</div>'+
+        '</div>'+
+      '</div>';
   }
   $('#notice').html(html);
 }
@@ -154,14 +158,14 @@ function loadSpecial(special) {
   for (var i = 0; i < special.length; i++) {
     var ntime = parseInt(special[i].ndate);
     var now = new Date();
-    var span = (now - ntime < 172800000 ? `<span class="label label-danger">New</span>` :
+    var span = (now - ntime < 172800000 ? '<span class="label label-danger">New</span>' :
       '');
-    html += `<div class="panel panel-info">
-            <div class="panel-heading">${special[i].ntitle} ${span}
-              <a href="info.tust.html?tab=special&nid=${special[i].nid}" class="pull-right">>>阅读原文</a>
-            </div>
-            <div class="panel-body">${special[i].nabstract}</div>
-          </div>`;
+    html += '<div class="panel panel-info">'+
+            '<div class="panel-heading">'+special[i].ntitle+' '+span+
+              '<a href="info.tust.html?tab=special&nid='+special[i].nid+'" class="pull-right">>>阅读原文</a>'+
+            '</div>'+
+            '<div class="panel-body">'+special[i].nabstract+'</div>'+
+          '</div>';
   }
   $('.special .panel-group').html(html);
 }
@@ -182,9 +186,9 @@ function getTime() {
   var s = time.getSeconds();
   s < 10 && (s = "0" + s);
   showTime.innerHTML =
-    showTime.innerHTML.indexOf(':') == -1 ?
-      `${y}年${M}月${d}日 星期${x} ${h} : ${m} : ${s} ` :
-      `${y}年${M}月${d}日 星期${x} ${h}&nbsp;&nbsp;&nbsp;${m}&nbsp;&nbsp;&nbsp;${s} `;
+    //showTime.innerHTML.indexOf(':') == -1 ?
+      ' '+y+'年'+M+'月'+d+'日 星期'+x;//+' '+h+' : '+m+' : '+s+' ' :
+      //' '+y+'年'+M+'月'+d+'日 星期'+x+' '+h+'&nbsp;&nbsp;&nbsp;'+m+'&nbsp;&nbsp;&nbsp;'+s+' ';
   setTimeout(getTime, 500);
 }
 

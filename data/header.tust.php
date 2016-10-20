@@ -3,7 +3,7 @@
     <div class="row">
       <!--logo-->
       <div class="col-sm-5">
-        <a href="tust.html"><img src="images/index/logo_text.png" class="logo img-responsive"></a>
+        <a href="index.html"><img src="images/index/logo_text.png" class="logo img-responsive"></a>
       </div>
       <!--搜索及功能-->
       <div class="col-sm-5 col-sm-offset-2">

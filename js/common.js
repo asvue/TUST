@@ -23,7 +23,7 @@ $('#header_box').load('data/header.tust.php', function () {
 $('#footer_box').load('data/footer.tust.php',function () {
   //返回顶部按钮
   $('#toTop').click(function () {
-    $("body").animate({scrollTop: 0}, 500);
+    $("body,html").animate({scrollTop: 0}, 500);
     $(this).animate({bottom:'100%'},500);
   });
   $("[href='404.html']").click(function (e) {
@@ -144,7 +144,7 @@ var validation = function () {
     var u = sessionStorage.getItem(i);
     login.html('个人中心');
     login.attr('href', "javascript:location.href='home.tust.html';");
-    topTip.html(`欢迎你：${u} <a href="javascript:;" onclick="clearsess()">退出</a>`);
+    topTip.html('欢迎你：'+u+' <a href="javascript:;" onclick="clearsess()">退出</a>');
     topTip.css('display', 'inline-block');
   }
 };
